@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load sizeformat calculate %}
+{% block title %}{% trans "Resource_pool" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Resource_pool") %}
+{% endblock page_header %}
+{% block main %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>蓝盾内网安全管理及审计系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <!--可以在收藏夹中显示出图标-->
+    <link rel="Bookmark" href="/dashboard/static/dashboard/img/favicon.ico" type="image/x-icon"/>
+    <!--可以在地址栏中显示出图标-->
+    <link rel="shortcut icon" href="/dashboard/static/dashboard/img/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="/dashboard/static/dashboard/img/favicon.ico" type="image/x-icon"/>
+
+    <!--公共-->
+    <link href="/dashboard/static/dashboard/css/bd_openstack.css" rel="stylesheet" type="text/css" />
+    <script src="/dashboard/static/dashboard/js/bd/jquery.min.js"></script>
+
+    <!--报表-->
+    <script type="text/javascript" src="/dashboard/static/dashboard/js/lib/echarts/echarts-all.js"></script>
+    <script type="text/javascript" src="/dashboard/static/dashboard/js/lib/echarts/echarts.js"></script>
+    <script src="/dashboard/static/dashboard/js/lib/echarts/charts.js"></script>
+    <script src="/dashboard/static/dashboard/js/lib/echarts/echarts_list.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            var negativeLocalGbUsed = -"{{ hypervisor_stats.local_gb_used }}";
+            $("#chart_pie1").chartsObj({
+                typecharts:'pie',                 //是什么类型的报表bar,line,pie等
+                tabID:'#chart_pie1',              //调用报表的ID
+                jsonUrl:'/dashboard/static/dashboard/html/pie1.json',
+                trigger:'item',                   //报表的trigger类型
+                width:'100%',                      //报表显示宽度
+                height:185,                      //报表显示高度
+                openWin:false,                     //报表是否有弹出详情页面
+                isWhat:'pie1',                     //报表所用的格式
+                echartsAdd:'/dashboard/static/dashboard/js/lib/echarts',  //echarts文件路径
+                jsonSeriesListData:
+                    [
+                        {
+                            "name": "已分配容量{{hypervisor_stats.local_gb_used|diskgbformat}}",
+                            "dataNumber": "{{hypervisor_stats.local_gb_used}}",
+                            "title": "存储资源",
+                            "color": "#55afe8"
+                        },
+                        {
+                            "name": "未分配容量{{hypervisor_stats.local_gb|subtraction:hypervisor_stats.local_gb_used|diskgbformat}}",
+                            "dataNumber": "{{hypervisor_stats.local_gb|subtraction:hypervisor_stats.local_gb_used}}",
+                            "title": "存储资源",
+                            "color": "#ccebff"
+                        }
+                    ]
+            });
+            $("#chart_pie2").chartsObj({
+                typecharts:'pie',                 //是什么类型的报表bar,line,pie等
+                jsonUrl:'/dashboard/static/dashboard/html/pie1.json',  //报表的JSON文件路径
+                tabID:'#chart_pie2',              //调用报表的ID
+                trigger:'item',                   //报表的trigger类型
+                width:'100%',                      //报表显示宽度
+                height:227,                      //报表显示高度
+                openWin:false,                     //报表是否有弹出详情页面
+                isWhat:'pie1',                     //报表所用的格式
+                echartsAdd:'/dashboard/static/dashboard/js/lib/echarts',  //echarts文件路径
+                jsonSeriesListData:
+                    [
+                        {
+                            "name": "空闲{{instance_stats_count.free}}台",
+                            "dataNumber": "{{ instance_stats_count.free }}",
+                            "title": "存储资源",
+                            "color": "#55afe8"
+                        },
+                        {
+                            "name": "繁忙{{instance_stats_count.active}}台",
+                            "dataNumber": "{{instance_stats_count.active}}",
+                            "title": "存储资源",
+                            "color": "#ccebff"
+                        },
+                        {
+                            "name": "关机{{instance_stats_count.down}}台",
+                            "dataNumber": "{{instance_stats_count.down}}",
+                            "title": "存储资源",
+                            "color": "#ccebff"
+                        },
+                        {
+                            "name": "空置{{instance_stats_count.idle}}台",
+                            "dataNumber": "{{instance_stats_count.idle}}",
+                            "title": "存储资源",
+                            "color": "#ccebff"
+                        },
+                        {
+                            "name": "正常{{instance_stats_count.running}}台",
+                            "dataNumber": "{{instance_stats_count.running}}",
+                            "title": "存储资源",
+                            "color": "#ccebff"
+                        }
+                    ]
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div class="main">
+    <form method="post" class="form-horizontal">
+        <select class="text" name="">
+            {% for name in clusters_list %}
+            <option value="{{name}}">广州天河</option>
+            {% endfor %}
+        </select>
+    </form>
+    <div class="container" style="width: 100%;">
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="info_box">
+                    <h1>计算资源</h1>
+                    <div class="clearfix">
+                        <div class="col-xs-6 resource_info">
+                            <div class="clearfix">
+                                <i class="resource_logo logo_1"></i>
+                                <div class="resource_body">
+                                    <div class="resource_name">主机</div>
+                                    <div class="resource_count">共{{hypervisor_stats.count}}台</div>
+                                </div>
+                            </div>
+                            <div class="resource_tips">{{hypervisor_stats_count.down}}台关闭，{{hypervisor_stats_count.up}}台启动</div>
+                        </div>
+                        <div class="col-xs-6 resource_info">
+                            <div class="clearfix">
+                                <i class="resource_logo logo_2"></i>
+                                <div class="resource_body">
+                                    <div class="resource_name">虚拟机</div>
+                                    <div class="resource_count">共{{hypervisor_stats.running_vms}}台</div>
+                                </div>
+                            </div>
+                            <div class="resource_tips">{{instance_stats_count.down}}台关闭，{{instance_stats_count.up}}台启动</div>
+                        </div>
+                        <div class="col-xs-6 resource_info">
+                            <div class="clearfix">
+                                <i class="resource_logo logo_3"></i>
+                                <div class="resource_body">
+                                    <div class="resource_name">内核</div>
+                                    <div class="resource_count">{{hypervisor_stats.vcpus}}核</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 resource_info">
+                            <div class="clearfix">
+                                <i class="resource_logo logo_4"></i>
+                                <div class="resource_body">
+                                    <div class="resource_name">内存</div>
+                                    <div class="resource_count">{{hypervisor_stats.memory_mb|mb_float_format}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="info_box">
+                    <h1>存储资源</h1>
+                    <div id="chart_pie1"></div>
+                    <div class="chart_detail">总容量{{hypervisor_stats.local_gb|diskgbformat}}</div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="info_box">
+                    <h1>系统虚机运行情况</h1>
+                    <div id="chart_pie2"></div>
+                </div>
+            </div>
+        </div>
+        <table width="100%" cellspacing="0" cellpadding="0" class="table table-bordered new_table">
+            <tr>
+                <th rowspan="2">集群</th>
+                <th rowspan="2">数据中心</th>
+                <th>主机</th>
+                <th>虚拟机</th>
+                <th colspan="3">CPU频率</th>
+                <th colspan="3">内存</th>
+                <th colspan="3">存储</th>
+            </tr>
+            <tr>
+                <th>主机数</th>
+                <th>虚拟机台数</th>
+                <th>总数</th>
+                <th>已分配</th>
+                <th>平均利用率</th>
+                <th>总数</th>
+                <th>已分配</th>
+                <th>平均利用率</th>
+                <th>总容量</th>
+                <th>已分配</th>
+                <th>存储利用率</th>
+            </tr>
+            <tr>
+                <td>{{current_cluster}}</td>
+                <td>广州天河</td>
+                <td>{{hypervisor_stats.count}}台</td>
+                <td>{{hypervisor_stats.running_vms}}台</td>
+                <td>{{hypervisor_stats.vcpus}}核</td>
+                <td>{{hypervisor_stats.vcpus_used}}核</td>
+                <td>{% widthratio hypervisor_stats.vcpus_used hypervisor_stats.vcpus 100 %}%</td>
+                <td>{{hypervisor_stats.memory_mb|mb_float_format}}</td>
+                <td>{{hypervisor_stats.memory_mb_used|mb_float_format}}</td>
+                <td>{% widthratio hypervisor_stats.memory_mb_used hypervisor_stats.memory_mb 100 %}%</td>
+                <td>{{hypervisor_stats.local_gb|diskgbformat}}</td>
+                <td>{{hypervisor_stats.local_gb_used|diskgbformat}}</td>
+                <td>{% widthratio hypervisor_stats.local_gb_used hypervisor_stats.local_gb 100 %}%</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}
+
+

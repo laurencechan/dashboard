@@ -1,0 +1,34 @@
+{
+    "seriesList": [
+        {
+            "name": "空闲23台",
+            "dataNumber": 23,
+            "title": "存储资源",
+            "color": "#55afe8"
+        },
+        {
+            "name": "繁忙23台",
+            "dataNumber": 23,
+            "title": "存储资源",
+            "color": "#ccebff"
+        },
+        {
+            "name": "关机23台",
+            "dataNumber": 23,
+            "title": "存储资源",
+            "color": "#ccebff"
+        },
+        {
+            "name": "空置23台",
+            "dataNumber": 23,
+            "title": "存储资源",
+            "color": "#ccebff"
+        },
+        {
+            "name": "正常23台",
+            "dataNumber": 23,
+            "title": "存储资源",
+            "color": "#ccebff"
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>蓝盾云管理平台</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<!--可以在收藏夹中显示出图标-->
+<link rel="Bookmark" href="../favicon.ico" type="image/x-icon"/>
+<!--可以在地址栏中显示出图标-->
+<link rel="shortcut icon" href="/dashboard/static/dashboard/img/favicon.ico" type="image/x-icon"/>
+<link rel="icon" href="/dashboard/static/dashboard/img/favicon.ico" type="image/x-icon"/>
+<link href="/dashboard/static/dashboard/css/bd/style/public.css" rel="stylesheet" type="text/css" />
+<link href="/dashboard/static/dashboard/css/bd/style/style.css" rel="stylesheet" type="text/css" />
+<script src="/dashboard/static/dashboard/js/bd/jquery.min.js"></script>
+<!--[if IE 6]>
+<script src="/dashboard/static/dashboard/js/bd/ie6_bug/DD_belatedPNG.js" type="text/javascript"></script>
+<script type="text/javascript">DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--[if lte ie 9]>
+<script src="/dashboard/static/dashboard/js/bd/jquery.JPlaceholder.js"></script>
+<![endif]-->
+</head>
+
+<body class="log">
+ <div class="login">
+ <div class="logoimg"></div>
+ <div class="login_nr">   
+   <div class="logo_b"><div class="img"></div></div>
+   <div class="login_text">
+     <form id="" class="ng-pristine ng-valid ng-scope" method="POST" action="/dashboard/auth/login/" autocomplete="off" ng-controller="hzLoginController">{% csrf_token %}
+     <p><input type="text" class="log_yu" maxlength="20" placeholder="域"  id="id_domain" name="domain" autofocus="autofocus"  value="default" style="display:none" /></p>
+     <p><input type="text" class="log_name" maxlength="20" placeholder="用户名" id="id_username" name="username" autofocus="autofocus" /></p>
+     <p><input type="password" class="log_pwd" maxlength="20" placeholder="密码"  id="id_password" name="password"/></p>
+     <p> <!--<input type="submit" class="log_btn" value="登录" />-->
+     <input type="submit" class="log_btn" value="登录"  />
+     <span style="display:none;" id="logininfo"></span>
+     </p>
+     </form>
+   </div>
+ </div>
+ <p class="banquan">蓝盾信息安全技术股份有限公司&nbsp;&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;Copyright © 1998 - 2017 Bluedon. All Rights Reserved </p>
+ </div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".log_btn").click(function(){	
+		var yu=$(".log_yu").val();//域的值
+		var un=$(".log_name").val();//用户名的值
+		var pw=$(".log_pwd").val();//密码的值		
+		if (yu==''){
+			$("#logininfo").css("display","block");
+			$("#logininfo").html("请输入域");
+			$(".log_yu").focus();
+			return false;
+		}
+		if (un==''){
+			$("#logininfo").css("display","block");
+			$("#logininfo").html("请输入用户名");
+			$(".log_name").focus();
+			return false;
+		}
+		if (pw==''){
+			$("#logininfo").css("display","block");
+			$("#logininfo").html("请输入密码");
+			$(".log_pwd").focus();
+			return false;
+		}
+	   //window.location.href="include/index.html";
+	})
+})
+</script>
+</html>
