@@ -37,11 +37,7 @@ class MainIndexView(views.APIView):
 
     def get_data(self, request, context, *args, **kwargs):
         context["cluster"] = {}
-        #import pydevd
-        #pydevd.settrace('172.16.6.2', port=60001, stdoutToServer=True, stderrToServer=True)
         hypervisor_stats_count = {}
-        #import pydevd
-        #pydevd.settrace('172.16.6.2', port=60001, stdoutToServer=True, stderrToServer=True)
         hypervisor_stats_count['down'] = 0
         hypervisor_stats_count['up'] = 0
 

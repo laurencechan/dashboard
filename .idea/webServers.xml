@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="128d8b59-7db4-4397-b209-91e42fa1f074" name="site-packages" url="http://10.172.10.10">
+        <fileTransfer host="10.172.10.10" port="22" rootFolder="/usr/lib/python2.7/site-packages" accessType="SFTP" password="dfc9dfc6dfc5dfdfdfcedf98df9adf9bdf9d" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="a00021bc-724c-4470-b28d-a20868396532" name="novaclient" url="http://10.172.10.10">
+        <fileTransfer host="10.172.10.10" port="22" rootFolder="/usr/lib/python2.7/site-packages/novaclient" accessType="SFTP" password="dfc9dfc6dfc5dfdfdfcedf98df9adf9bdf9d" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,81 @@
+[
+  {
+    "sTitle": "集群",
+    "data": "sFrameGroup",
+    "bVisible": true
+  },
+  {
+    "sTitle": "云中心",
+    "data": "sFrameCloud"
+  },
+  {
+    "sTitle": "主机",
+    "columns": [
+      {
+        "display": "主机数",
+        "name": "sFrameHost"
+      }
+    ]
+  },
+  {
+    "sTitle": "虚机",
+    "columns": [
+      {
+        "display": "虚机数",
+        "name": "sFrameVirtual"
+      }
+    ]
+  },
+  {
+    "sTitle": "CPU",
+    "columns": [
+      {
+        "display": "总数",
+        "name": "sFrameCPUcount"
+      },
+      {
+        "display": "已分配",
+        "name": "sFrameCPUused"
+      },
+      {
+        "display": "平均利用率",
+        "name": "sFrameProgress01"
+      }
+    ]
+  },
+  {
+    "sTitle": "内存",
+    "columns": [
+      {
+        "display": "总数",
+        "name": "sFrameMemorycount"
+      },
+      {
+        "display": "已分配",
+        "name": "sFrameMemoryused",
+        "totalSummary":{"type": "sum"}
+      },
+      {
+        "display": "平均利用率",
+        "name": "sFrameProgress02"
+      }
+    ]
+  },
+  {
+    "sTitle": "存储",
+    "columns": [
+      {
+        "display": "总容量",
+        "name": "sFrameStoragecount"
+      },
+      {
+        "display": "已分配",
+        "name": "sFrameStorageused"
+      },
+      {
+        "display": "存储分配率",
+        "name": "sFrameProgress03"
+      }
+    ]
+  }
+]
