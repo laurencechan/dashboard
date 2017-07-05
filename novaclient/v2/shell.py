@@ -858,10 +858,9 @@ def _print_flavor_list(flavors, show_extra_specs=False):
     metavar='<limit>',
     type=int,
     default=None,
-    help=_("Maximum number of flavors to display. If limit == -1, all flavors "
-           "will be displayed. If limit is bigger than 'osapi_max_limit' "
-           "option of Nova API, limit 'osapi_max_limit' will be used "
-           "instead."))
+    help=_("Maximum number of flavors to display. If limit is bigger than "
+           "'osapi_max_limit' option of Nova API, limit 'osapi_max_limit' "
+           "will be used instead."))
 def do_flavor_list(cs, args):
     """Print a list of available 'flavors' (sizes of servers)."""
     if args.all:
@@ -3316,8 +3315,7 @@ def do_keypair_list(cs, args):
     metavar='<limit>',
     type=int,
     default=None,
-    help=_("Maximum number of keypairs to display. If limit == -1, all "
-           "keypairs will be displayed. If limit is bigger than "
+    help=_("Maximum number of keypairs to display. If limit is bigger than "
            "'osapi_max_limit' option of Nova API, limit 'osapi_max_limit' "
            "will be used instead."))
 def do_keypair_list(cs, args):
@@ -4221,8 +4219,7 @@ def do_hypervisor_list(cs, args):
     metavar='<limit>',
     type=int,
     default=None,
-    help=_("Maximum number of hypervisors to display. If limit == -1, all "
-           "hypervisors will be displayed. If limit is bigger than "
+    help=_("Maximum number of hypervisors to display. If limit is bigger than "
            "'osapi_max_limit' option of Nova API, limit 'osapi_max_limit' "
            "will be used instead."))
 def do_hypervisor_list(cs, args):
@@ -5221,27 +5218,13 @@ def do_secgroup_delete_default_rule(cs, args):
 
 
 @utils.arg('name', metavar='<name>', help=_('Server group name.'))
-# NOTE(wingwj): The '--policy' way is still reserved here for preserving
-# the backwards compatibility of CLI, even if a user won't get this usage
-# in '--help' description. It will be deprecated after a suitable deprecation
-# period(probably 2 coordinated releases or so).
-#
-# Moreover, we imagine that a given user will use only positional parameters or
-# only the "--policy" option. So we don't need to properly handle
-# the possibility that they might mix them here. That usage is unsupported.
-# The related discussion can be found in
-# https://review.openstack.org/#/c/96382/2/.
 @utils.arg(
     'policy',
     metavar='<policy>',
-    default=argparse.SUPPRESS,
-    nargs='*',
+    nargs='+',
     help=_('Policies for the server groups.'))
 def do_server_group_create(cs, args):
     """Create a new server group with the specified details."""
-    if not args.policy:
-        raise exceptions.CommandError(_("at least one policy must be "
-                                        "specified"))
     kwargs = {'name': args.name,
               'policies': args.policy}
     server_group = cs.server_groups.create(**kwargs)

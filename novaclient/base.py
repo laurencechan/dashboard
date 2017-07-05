@@ -353,10 +353,7 @@ class Manager(HookableMixin):
 
     def _create(self, url, body, response_key, return_raw=False, **kwargs):
         self.run_hooks('modify_body_for_create', body, **kwargs)
-        print("cmctet body===============",body)
         resp, body = self.api.client.post(url, body=body)
-        print("cmctest url===============",url)
-        print("cmctest return============",body)
         if return_raw:
             return self.convert_into_with_meta(body[response_key], resp)
 

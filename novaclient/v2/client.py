@@ -52,7 +52,10 @@ from novaclient.v2 import usage
 from novaclient.v2 import versions
 from novaclient.v2 import virtual_interfaces
 from novaclient.v2 import volumes
-
+#add by xieweijie on 2017-06-28
+#for add the servers action manager
+from novaclient.v2.contrib import instance_action
+#end
 
 class Client(object):
     """Top-level object to access the OpenStack Compute API.
@@ -173,7 +176,10 @@ class Client(object):
         self.server_groups = server_groups.ServerGroupsManager(self)
         self.server_migrations = \
             server_migrations.ServerMigrationsManager(self)
-
+        #add by xieweijie on 2017-06-28
+        #for instance-action
+        self.instance_action = instance_action.InstanceActionManager(self)
+        #end
         # Add in any extensions...
         if extensions:
             for extension in extensions:
