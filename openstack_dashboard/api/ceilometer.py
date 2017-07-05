@@ -358,6 +358,22 @@ def statistic_list(request, meter_name, query=None, period=None):
     return [Statistic(s) for s in statistics]
 
 
+def single_statistic(request, meter_name, query=None, period=None, computes=None):
+    return ceilometerclient(request).statistics.single_statistic(meter_name=meter_name, q=query, period=period, computes=computes)
+
+
+def instancestates(request, start_utc=None, end_utc=None):
+    return ceilometerclient(request).instancestates.list(start=start_utc, end=end_utc)
+
+
+def get_statistic_instance(request, meter_name, instance_id, period=60):
+    return ceilometerclient(request).statistics.get_statistic_instance(meter_name=meter_name, instance_id=instance_id, period=period)
+
+
+def get_capability_instance(request, instance_id, start, end, timetype):
+    return ceilometerclient(request).capabilities.get_capability_instance(instance_id=instance_id, start=start, end=end, type=timetype)
+
+
 class ThreadedUpdateResourceWithStatistics(threading.Thread):
     """Multithread wrapper for update_with_statistics method of
     resource_usage.
