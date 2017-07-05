@@ -683,7 +683,7 @@ def server_get(request, instance_id):
     return Server(novaclient(request).servers.get(instance_id), request)
 
 
-def server_list(request, search_opts=None, all_tenants=False):
+def server_list(request, search_opts=None, all_tenants=False, project_id=None):
     page_size = utils.get_page_size(request)
     c = novaclient(request)
     paginate = False
@@ -696,6 +696,8 @@ def server_list(request, search_opts=None, all_tenants=False):
 
     if all_tenants:
         search_opts['all_tenants'] = True
+        if project_id:
+            search_opts['project_id'] = project_id
     else:
         search_opts['project_id'] = request.user.tenant_id
     servers = [Server(s, request)
@@ -875,6 +877,10 @@ def hypervisor_list(request):
     return novaclient(request).hypervisors.list()
 
 
+def hypervisor_get(request, id):
+    return novaclient(request).hypervisors.get(id)
+
+
 def hypervisor_stats(request):
     return novaclient(request).hypervisors.statistics()
 
@@ -971,8 +977,8 @@ def server_group_list(request):
     return novaclient(request).server_groups.list()
 
 
-def service_list(request, binary=None):
-    return novaclient(request).services.list(binary=binary)
+def service_list(request, host=None, binary=None):
+    return novaclient(request).services.list(host=host, binary=binary)
 
 
 def service_enable(request, host, binary):
@@ -994,6 +1000,8 @@ def aggregate_details_list(request):
         result.append(c.aggregates.get_details(aggregate.id))
     return result
 
+def aggregate_list(request):
+    return novaclient(request).aggregates.list()
 
 def aggregate_create(request, name, availability_zone=None):
     return novaclient(request).aggregates.create(name, availability_zone)
